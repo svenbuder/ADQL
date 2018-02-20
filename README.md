@@ -1,5 +1,4 @@
-# ADQL
-ADQL
+# A simple ADQL to match entries of a file on your computer
 
 0) Use the FITS file of the survey or create your own file, 
 Include the 2MASS designation and the target ID of the survey, add a header with the column names, e.g.:
