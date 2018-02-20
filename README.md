@@ -6,8 +6,9 @@ Include the 2MASS designation and the target ID of the survey, add a header with
 
 Example file:
 ```
-# APOGEE_ID, 2MASS_ID
-2M00000002+7417074, 00000002+7417074
+# tmass_id apogee_id
+00000002+7417074 2M00000002+7417074
+00000019-1924498 2M00000019-1924498
 ```
 
 1) Go to the GAIA archive and SIGN IN 
@@ -29,7 +30,7 @@ INNER JOIN gaiadr1.tmass_best_neighbour AS xmatch
 INNER JOIN gaiadr1.tmass_original_valid AS tmass
 	ON tmass.tmass_oid = xmatch.tmass_oid
 INNER JOIN user_sbuder.ness AS ness
-	ON tmass.designation = ness.apogee_id
+	ON tmass.designation = ness.tmass_id
 ```
 
 However, the sky is the limit, so you can as easily also just use 'SELECT *’ 
