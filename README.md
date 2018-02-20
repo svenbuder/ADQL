@@ -41,4 +41,4 @@ You can also change the name e.g. into 'APOGEE_GAIA X-match’ in case you plan 
 Once it is finished (indicated by an arrow on the left), you can either just continue within the server to show data.
 You can also select this job, change the download format e.g. to FITS and click on the button ‘Download results’ on the right hand side.
 
-![alt text](ADQL_overview.png "Screenshot of Gaia archive")
+![alt text](ADQL_screenshot.png "Screenshot of Gaia archive")
