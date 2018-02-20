@@ -4,8 +4,9 @@ ADQL
 0) Use the FITS file of the survey or create your own file, 
 Include the 2MASS designation and the target ID of the survey, add a header with the column names, e.g.:
 
-# APOGEE_ID, 2MASS_ID
-2M00000002+7417074, 00000002+7417074
+Example file:
+> # APOGEE_ID, 2MASS_ID
+> 2M00000002+7417074, 00000002+7417074
 
 1) Go to the GAIA archive and SIGN IN 
 (top right corner, this is important for uploading data and storage limits), my username is ‘sbuder’.
