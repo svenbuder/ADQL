@@ -2,7 +2,7 @@
 
 You are working in a survey (e.g. APOGEE or GALAH) and want to x-match some of your targets with Gaia DR1 and soon DR2 without downloading terra-bytes of data? Here is a simple instruction how to do that:
 
-## 0) Use the FITS file of the survey or create your own file, 
+## 0) Use the FITS file of the survey or create your own file
 
 Include the 2MASS designation and the target ID of the survey, add a header with the column names, e.g.:
 
@@ -33,7 +33,7 @@ SELECT *
 FROM gaiadr1.gaia_source AS gaia
 ```
 (good luck with that :D) or only select the columns you really need by specifying your query.
-In this example I am really only selecting the first 10 results of your input apogee_id and the gaia soruce_id that match with 2MASS:
+In this example I am really only selecting the first 10 results of your input apogee_id and the gaia soruce_id that match with Gaia via the 2MASS ID (a x-match of Gaia and 2MASS is already provided by ESAC!):
 
 ```ruby
 SELECT TOP 10 ness.apogee_id, gaia.source_id
