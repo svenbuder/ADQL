@@ -27,18 +27,18 @@ It should then appear in the bottom of the left tree under User tables:
 ###### user_sbuder.ness with one column ‘apogee_id'
 
 ## 3) ADQL QUERY
-You can try to download everything in Gaia DR1 via
+You can try to download everything in Gaia DR2 via
 ```ruby
 SELECT *
-FROM gaiadr1.gaia_source AS gaia
+FROM gaiadr2.gaia_source AS gaia
 ```
 (good luck with that :D) or only select the columns you really need by specifying your query.
 In this example I am really only selecting the first 10 results of your input apogee_id and the gaia soruce_id that match with Gaia via the 2MASS ID (a x-match of Gaia and 2MASS is already provided by ESAC!):
 
 ```ruby
 SELECT TOP 10 ness.apogee_id, gaia.source_id
-FROM gaiadr1.gaia_source AS gaia
-INNER JOIN gaiadr1.tmass_best_neighbour AS xmatch
+FROM gaiadr2.gaia_source AS gaia
+INNER JOIN gaiadr2.tmass_best_neighbour AS xmatch
 	ON gaia.source_id = xmatch.source_id
 INNER JOIN gaiadr1.tmass_original_valid AS tmass
 	ON tmass.tmass_oid = xmatch.tmass_oid
@@ -47,7 +47,7 @@ INNER JOIN user_sbuder.ness AS ness
 ```
 
 However, the sky is the limit, so you can as easily also just use 'SELECT *’ 
-and run that to get all results and all columns of your input file, GAIA and 2MASS.
+and run that to get all results and all columns of your input file, GAIA and 2MASS. You can also only select everything from certain tables via 'SELECT gaia.*'.
 
 ## 4) Working with the data / download
 The Job will get a telephone number and will be shown in the bottom of the server
