@@ -55,7 +55,7 @@ INNER JOIN user_sbuder.ness AS ness
 However, the sky is the limit, so you can as easily also just use 'SELECT *’ 
 and run that to get all results and all columns of your input file, GAIA and 2MASS. You can also only select everything from certain tables via 'SELECT gaia.*'.
 
-### 3.3) X-match your table with Gaia and 2MASS but with additional conditions
+### 3.3) X-match your table 2MASS via the ultimate source_id (from Gaia DR2) but with additional conditions
 
 If you are Eleonora Zari and want to X-match of your table (with gaia.source_id) with 2MASS and only need JHKs magnitudes and their errors for all stars with a good Gaia-2MASS match (angular distance < 1 arcsec) and good 2MASS photometry (ph_qual flag == 'AAA'), you can do the following:
 
@@ -67,6 +67,31 @@ INNER JOIN gaiadr2.tmass_best_neighbour AS xmatch
 INNER JOIN gaiadr1.tmass_original_valid AS tmass
 	ON tmass.tmass_oid = xmatch.tmass_oid
 WHERE tmass.ph_qual = 'AAA' AND xmatch.angular_distance <= 1.
+```
+
+###3.4) X-match GALAH DR2 with Gaia and also add columns for 2MASS and WISE (if available)
+
+The great thing about GALAH is, that we observe stars which are in 2MASS. So you can first match GALAH and 2MASS and then use the x-match of Gaia and 2MASS provided by the DPAC (thank you guys!).
+
+```ruby
+SELECT galahdr2.*, gaia.*, tmass.tmass_oid, tmass.j_m, tmass.j_msigcom,  tmass.h_m, tmass.h_msigcom,  tmass.ks_m, tmass.ks_msigcom, tmass.ph_qual as ph_qual_tmass, tmassxmatch.angular_distance as angular_distance_tmass, allwise.w1mpro, allwise.w1mpro_error, allwise.w2mpro, allwise.w2mpro_error, allwise.w3mpro, allwise.w3mpro_error, allwise.w4mpro, allwise.w4mpro_error, allwise.cc_flags, allwise.ext_flag, allwise.var_flag, allwise.ph_qual as ph_qual_wise, allwisexmatch.angular_distance as angular_distance_wise
+FROM 
+    gaiadr2.gaia_source as gaia
+LEFT OUTER JOIN
+    gaiadr2.allwise_best_neighbour AS allwisexmatch
+    ON gaia.source_id = allwisexmatch.source_id
+LEFT OUTER JOIN
+    gaiadr1.allwise_original_valid AS allwise
+    ON allwisexmatch.allwise_oid = allwise.allwise_oid
+LEFT OUTER JOIN
+    gaiadr2.tmass_best_neighbour AS tmassxmatch
+    ON gaia.source_id = tmassxmatch.source_id
+LEFT OUTER JOIN
+    gaiadr1.tmass_original_valid AS tmass
+    ON tmassxmatch.tmass_oid = tmass.tmass_oid
+INNER JOIN
+	user_sbuder.galah_dr2p1_ids as galahdr2
+	ON galahdr2.star_id = tmass.designation
 ```
 
 ## 4) Working with the data / download
