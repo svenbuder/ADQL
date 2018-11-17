@@ -26,7 +26,7 @@ I choose ’ness’ for the following example.
 It should then appear in the bottom of the left tree under User tables:
 ###### user_sbuder.ness with one column ‘apogee_id'
 
-## 3) ADQL EXAMPLE QUERIES
+## 3) ADQL EXAMPLE QUERIES FOR THE GAIA ARCHIVE
 
 ### 3.1) Get the complete Gaia DR2 (which will timeout...)
 
@@ -69,14 +69,17 @@ INNER JOIN gaiadr1.tmass_original_valid AS tmass
 WHERE tmass.ph_qual = 'AAA' AND xmatch.angular_distance <= 1.
 ```
 
-###3.4) X-match GALAH DR2 with Gaia and also add columns for 2MASS and WISE (if available)
+### 3.4) X-match GALAH DR2 with Gaia and also add columns for 2MASS and WISE (if available)
 
-The great thing about GALAH is, that we observe stars which are in 2MASS. So you can first match GALAH and 2MASS and then use the x-match of Gaia and 2MASS provided by the DPAC (thank you guys!).
+The great thing about GALAH is, that we observe stars which are in 2MASS. So you can first match GALAH and 2MASS and then use the x-match of Gaia and 2MASS provided by the DPAC - thank you guys!. Additionally you can also x-match with the geometric Bayesian distance estimates from [Bailer-Jones et al. (2018)](http://adsabs.harvard.edu/abs/2018arXiv180410121B) - thanks Coryn!.
 
 ```ruby
-SELECT galahdr2.*, gaia.*, tmass.tmass_oid, tmass.j_m, tmass.j_msigcom,  tmass.h_m, tmass.h_msigcom,  tmass.ks_m, tmass.ks_msigcom, tmass.ph_qual as ph_qual_tmass, tmassxmatch.angular_distance as angular_distance_tmass, allwise.w1mpro, allwise.w1mpro_error, allwise.w2mpro, allwise.w2mpro_error, allwise.w3mpro, allwise.w3mpro_error, allwise.w4mpro, allwise.w4mpro_error, allwise.cc_flags, allwise.ext_flag, allwise.var_flag, allwise.ph_qual as ph_qual_wise, allwisexmatch.angular_distance as angular_distance_wise
+SELECT galahdr2.*, gaia.*, bailerjones18.*, tmass.tmass_oid, tmass.j_m, tmass.j_msigcom,  tmass.h_m, tmass.h_msigcom,  tmass.ks_m, tmass.ks_msigcom, tmass.ph_qual as ph_qual_tmass, tmassxmatch.angular_distance as angular_distance_tmass, allwise.w1mpro, allwise.w1mpro_error, allwise.w2mpro, allwise.w2mpro_error, allwise.w3mpro, allwise.w3mpro_error, allwise.w4mpro, allwise.w4mpro_error, allwise.cc_flags, allwise.ext_flag, allwise.var_flag, allwise.ph_qual as ph_qual_wise, allwisexmatch.angular_distance as angular_distance_wise
 FROM 
     gaiadr2.gaia_source as gaia
+LEFT OUTER JOIN
+    external.gaiadr2_geometric_distance as bailerjones18
+    ON bailerjones18.source_id = gaia.source_id	
 LEFT OUTER JOIN
     gaiadr2.allwise_best_neighbour AS allwisexmatch
     ON gaia.source_id = allwisexmatch.source_id
